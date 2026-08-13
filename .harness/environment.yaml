@@ -1,0 +1,19 @@
+# =============================================================================
+# Harness CD — Environment Definition
+# =============================================================================
+# An Environment is WHERE you deploy to (Dev, QA, Staging, Prod).
+# It holds Infrastructure Definitions and environment-scoped variables.
+#
+# type: PreProduction = Dev / QA / Staging
+#       Production    = Prod  (triggers RBAC + freeze-window checks)
+#
+# Import: Deployments > Environments > New Environment > YAML
+# =============================================================================
+environment:
+  name: dev # REPLACE: display name, e.g. "Dev" or "QA"
+  identifier: env_dev # REPLACE: unique id within the project (immutable after save)
+  description: Dev/QA pre-production environment.
+  orgIdentifier: default # REPLACE: your org identifier
+  projectIdentifier: my_project # REPLACE: your project identifier
+  type: PreProduction # PreProduction or Production
+  tags: {}

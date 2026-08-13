@@ -1,0 +1,29 @@
+# =============================================================================
+# Harness CD — Infrastructure Definition (Kubernetes Direct)
+# =============================================================================
+# An Infrastructure Definition is the concrete deployment target inside an
+# Environment: which cluster + namespace to deploy into.
+#
+# Every CD pipeline stage needs an Environment + Infrastructure Definition pair.
+#
+#   environmentRef -> must match an existing Environment identifier
+#   connectorRef   -> a Kubernetes Cluster connector (account. / org. / project scope)
+#   namespace      -> must already exist in the cluster
+#   releaseName    -> leave as-is; Harness generates a safe, unique name per release
+#
+# Import: open the Environment > Infrastructure Definitions > New > YAML
+# =============================================================================
+infrastructureDefinition:
+  name: k8s-dev                        # REPLACE: display name, e.g. "dev-cluster"
+  identifier: infra_k8s_dev            # REPLACE: unique id within the environment
+  description: Kubernetes Direct infrastructure for the Dev/QA environment.
+  orgIdentifier: default               # REPLACE: your org identifier
+  projectIdentifier: my_project        # REPLACE: your project identifier
+  environmentRef: env_dev              # REPLACE: must match your Environment identifier exactly
+  deploymentType: Kubernetes
+  type: KubernetesDirect
+  spec:
+    connectorRef: account.k8s_connector  # REPLACE: your Kubernetes Cluster connector id
+    namespace: my-namespace              # REPLACE: existing namespace in the cluster
+    releaseName: release-<+INFRA_KEY_SHORT_ID>  # keep as-is
+  allowSimultaneousDeployments: false
