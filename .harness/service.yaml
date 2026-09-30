@@ -1,0 +1,41 @@
+# The "what" of a deployment — defines the artifact (image) and the K8s manifests to apply.
+#
+# Import: Deployments > Services > New Service > YAML, paste, Save.
+service:
+  name: <YOUR_SERVICE_IDENTIFIER>
+  identifier: <YOUR_SERVICE_IDENTIFIER>
+  orgIdentifier: <YOUR_ORG_IDENTIFIER>
+  projectIdentifier: <YOUR_PROJECT_IDENTIFIER>
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      manifests:
+        - manifest:
+            identifier: <YOUR_MANIFEST_IDENTIFIER>
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: <YOUR_GITHUB_CONNECTOR>
+                  gitFetchType: Branch
+                  paths:
+                    - k8s/namespace.yaml
+                    - k8s/deployment.yaml
+                    - k8s/service.yaml
+                  repoName: <YOUR_REPO_NAME>
+                  branch: main
+              valuesPaths:
+                - k8s/values.yaml
+
+      artifacts:
+        primary:
+          primaryArtifactRef: nginx
+          sources:
+            - identifier: nginx
+              type: DockerRegistry
+              spec:
+                connectorRef: <YOUR_DOCKER_CONNECTOR> # anonymous DockerHub access is fine
+                imagePath: library/nginx # official images need the library/ prefix
+                tag: stable # or use <+input> to pick at runtime
+  gitOpsEnabled: false
